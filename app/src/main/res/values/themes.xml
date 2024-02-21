@@ -1,4 +1,10 @@
 <resources>
 
-    <style name="Theme.央视浏览器" parent="@style/Theme.AppCompat.Light.NoActionBar" />
+    <style name="Theme2" parent="@style/Theme.AppCompat.Light.NoActionBar" >
+        <item name="windowActionBar">false</item>
+        //隐藏标题栏
+        <item name="windowNoTitle">true</item>
+        //隐藏状态栏
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

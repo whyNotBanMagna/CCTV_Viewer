@@ -30,13 +30,6 @@ import com.tencent.smtt.sdk.WebViewClient;
 
 import java.util.HashMap;
 
-// WebView内核代码
-//import android.webkit.SslErrorHandler;
-//import android.webkit.WebChromeClient;
-//import android.webkit.WebSettings;
-//import android.webkit.WebView;
-//import android.webkit.WebViewClient;
-
 public class MainActivity extends AppCompatActivity {
 
     private WebView webView; // 导入 WebView
@@ -251,18 +244,10 @@ public class MainActivity extends AppCompatActivity {
             public void onReceivedSslError(com.tencent.smtt.sdk.WebView webView, com.tencent.smtt.export.external.interfaces.SslErrorHandler handler, com.tencent.smtt.export.external.interfaces.SslError error) {
                 handler.proceed(); // 忽略 SSL 错误
             }
-
-            // 系统Webview内核代码
-            //@Override
-            //public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            //    handler.proceed(); // 忽略 SSL 错误
-            //}
-
             // 设置 WebViewClient，监听页面加载完成事件
             @Override
             public void onPageFinished(WebView view, String url) {
                     // 页面加载完成后执行 JavaScript 脚本
-
                     // 清空info
                     info = "";
 
@@ -496,108 +481,105 @@ public class MainActivity extends AppCompatActivity {
                 } else if (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     // 中间键,执行按钮操作
                     switch (menuOverlaySelectedIndex) {
-                        case 0:
+                        case 0 -> {
                             // 刷新页面
                             webView.reload();
                             showMenuOverlay();
-                            break;
-                        case 1:
+                        }
+                        case 1 -> {
                             // 播放
-                            if(currentLiveIndex <= 19){
+                            if (currentLiveIndex <= 19) {
                                 simulateTouch(webView, 0.5f, 0.5f);
                             } else if (currentLiveIndex <= 40) {
                                 String scriptPause =
                                         """
-                                        try{
-                                        document.querySelector('.play.play2').click();
-                                        } catch(e) {
-                                        document.querySelector('.play.play1').click();
-                                        }
-                                        """;
+                                                try{
+                                                document.querySelector('.play.play2').click();
+                                                } catch(e) {
+                                                document.querySelector('.play.play1').click();
+                                                }
+                                                """;
                                 webView.evaluateJavascript(scriptPause, null);
                             }
                             showMenuOverlay();
-                            break;
-                        case 2:
+                        }
+                        case 2 -> {
                             // 切换全屏
                             String script1 =
                                     """   
-                                    console.log('点击全屏按钮');
-                                    document.querySelector('#player_pagefullscreen_yes_player').click();
-                                    """;
-
+                                            console.log('点击全屏按钮');
+                                            document.querySelector('#player_pagefullscreen_yes_player').click();
+                                            """;
                             String script2 =
                                     """
-                                    console.log('点击全屏按钮');
-                                    if(document.querySelector('.videoFull').id == ''){
-                                        document.querySelector('.videoFull').click();
-                                    }else{
-                                        document.querySelector('.videoFull_ac').click();
-                                    }
-                                    """;
-
-                            if(currentLiveIndex <= 19){
+                                            console.log('点击全屏按钮');
+                                            if(document.querySelector('.videoFull').id == ''){
+                                                document.querySelector('.videoFull').click();
+                                            }else{
+                                                document.querySelector('.videoFull_ac').click();
+                                            }
+                                            """;
+                            if (currentLiveIndex <= 19) {
                                 webView.evaluateJavascript(script1, null);
                             } else if (currentLiveIndex <= 40) {
                                 new Handler().postDelayed(() -> {
                                     webView.evaluateJavascript(script2, null);
                                 }, 500);
                             }
-                            break;
-                        case 3:
+                        }
+                        case 3 -> {
                             // 放大
                             String scriptZoomIn =
                                     """
-                                    // 获取当前页面的缩放比例
-                                    function getZoom() {
-                                      return parseFloat(document.body.style.zoom) || 1;
-                                    }
-                                                                  
-                                    // 设置页面的缩放比例
-                                    function setZoom(zoom) {
-                                      document.body.style.zoom = zoom;
-                                    }
-                                                                  
-                                    // 页面放大函数
-                                    function zoomIn() {
-                                      var zoom = getZoom();
-                                      setZoom(zoom + 0.1);
-                                    }
-                                    
-                                    zoomIn();
-                                    """;
+                                            // 获取当前页面的缩放比例
+                                            function getZoom() {
+                                              return parseFloat(document.body.style.zoom) || 1;
+                                            }
+                                                                          
+                                            // 设置页面的缩放比例
+                                            function setZoom(zoom) {
+                                              document.body.style.zoom = zoom;
+                                            }
+                                                                          
+                                            // 页面放大函数
+                                            function zoomIn() {
+                                              var zoom = getZoom();
+                                              setZoom(zoom + 0.1);
+                                            }
+                                                                                
+                                            zoomIn();
+                                            """;
                             webView.evaluateJavascript(scriptZoomIn, null);
-                            break;
-                        case 4:
+                        }
+                        case 4 -> {
                             // 缩小
                             String scriptZoomOut =
                                     """
-                                    // 获取当前页面的缩放比例
-                                    function getZoom() {
-                                      return parseFloat(document.body.style.zoom) || 1;
-                                    }
-                                                                  
-                                    // 设置页面的缩放比例
-                                    function setZoom(zoom) {
-                                      document.body.style.zoom = zoom;
-                                    }
-                                                                  
-                                    // 页面缩小函数
-                                    function zoomOut() {
-                                      var zoom = getZoom();
-                                      if (zoom > 0.2) {
-                                        setZoom(zoom - 0.1);
-                                      }
-                                    }
-                                    
-                                    zoomOut();
-                                    """;
+                                            // 获取当前页面的缩放比例
+                                            function getZoom() {
+                                              return parseFloat(document.body.style.zoom) || 1;
+                                            }
+                                                                          
+                                            // 设置页面的缩放比例
+                                            function setZoom(zoom) {
+                                              document.body.style.zoom = zoom;
+                                            }
+                                                                          
+                                            // 页面缩小函数
+                                            function zoomOut() {
+                                              var zoom = getZoom();
+                                              if (zoom > 0.2) {
+                                                setZoom(zoom - 0.1);
+                                              }
+                                            }
+                                                                                
+                                            zoomOut();
+                                            """;
                             webView.evaluateJavascript(scriptZoomOut, null);
-                            break;
-                        case 5:
+                        }
+                        case 5 ->
                             // 退出
                             System.exit(0);
-                            break;
                     }
                     return true;
                 }
@@ -750,22 +732,17 @@ public class MainActivity extends AppCompatActivity {
             }else if (event.getKeyCode() == KeyEvent.KEYCODE_MENU || event.getKeyCode() == KeyEvent.KEYCODE_M) {
                 // 显示菜单
                 showMenuOverlay();
-
                 return true;  // 返回 true 表示事件已处理，不传递给 WebView
             }
             return true;  // 返回 true 表示事件已处理，不传递给 WebView
         }else if (event.getKeyCode() >= KeyEvent.KEYCODE_0 && event.getKeyCode() <= KeyEvent.KEYCODE_9) {
             int numericKey = event.getKeyCode() - KeyEvent.KEYCODE_0;
-
             // 将按下的数字键追加到缓冲区
             digitBuffer.append(numericKey);
-
             // 使用 Handler 来在超时后处理输入的数字
             new Handler().postDelayed(() -> handleNumericInput(), DIGIT_TIMEOUT);
-
             // 更新显示正在输入的数字的 TextView
             updateInputTextView();
-
             return true;  // 事件已处理，不传递给 WebView
         }else if(event.getKeyCode() == KeyEvent.KEYCODE_BACK){
             if (doubleBackToExitPressedOnce) {
