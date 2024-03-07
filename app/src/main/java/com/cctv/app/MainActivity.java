@@ -1,6 +1,4 @@
-package com.eanyatonic.cctvViewer;
-
-import static com.eanyatonic.cctvViewer.FileUtils.copyAssets;
+package com.cctv.app;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,7 +21,6 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {

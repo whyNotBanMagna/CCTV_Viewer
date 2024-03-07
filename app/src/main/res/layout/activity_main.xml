@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     tools:deviceIds="tv"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context="com.cctv.app.MainActivity">
 
-    <com.tencent.smtt.sdk.WebView
+    <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
